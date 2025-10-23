@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ultras Försterberg '23</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: #3e65ff;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        header {
+            text-align: center;
+            padding: 0;
+        }
+        
+        .header-image {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        
+        nav {
+            background-color: white;
+            text-align: center;
+            padding: 15px 0;
+            border-bottom: 4px solid #f0f0f0; /* Dickere Linie */
+        }
+        
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+        }
+        
+        nav li {
+            margin: 0 20px;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #333;
+            font-size: 18px;
+            font-weight: bold;
+            padding: 10px 15px;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: #3e65ff;
+        }
+        
+        main {
+            padding: 40px 20px;
+            flex-grow: 1; /* Nimmt verfügbaren Platz ein */
+        }
+        
+        section {
+            display: none;
+        }
+        
+        section.active {
+            display: block;
+        }
+        
+        h2 {
+            color: #3e65ff;
+            margin-bottom: 20px;
+            font-size: 28px;
+            text-align: center;
+        }
+        
+        h3 {
+            color: #333;
+            margin: 20px 0 10px;
+            font-size: 22px;
+        }
+        
+        p {
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+        
+        /* Galerie-Styles */
+        .season-selector {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #ddd;
+            justify-content: center;
+        }
+        
+        .season-tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            font-weight: bold;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s;
+        }
+        
+        .season-tab.active {
+            border-bottom: 3px solid #3e65ff;
+            color: #3e65ff;
+        }
+        
+        .season-tab:hover {
+            color: #3e65ff;
+        }
+        
+        .matchday-selector {
+            margin-bottom: 20px;
+        }
+        
+        .matchday-list {
+            list-style-type: none;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .matchday-item {
+            padding: 8px 15px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .matchday-item:hover {
+            background-color: #3e65ff;
+            color: white;
+        }
+        
+        .matchday-item.active {
+            background-color: #3e65ff;
+            color: white;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .gallery-item {
+            background-color: #f5f5f5;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 5px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .no-images {
+            text-align: center;
+            padding: 40px;
+            background-color: #f9f9f9;
+            border-radius: 5px;
+            color: #666;
+            grid-column: 1 / -1;
+        }
+        
+        .latest-matchday {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 5px;
+            border-left: 4px solid #3e65ff;
+        }
+        
+        /* Aktuelles Styles */
+        .news-item {
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .news-date {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+        
+        .news-content {
+            margin-top: 10px;
+        }
+        
+        .news-images {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 15px;
+        }
+        
+        /* Admin Panel */
+        .admin-panel {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border-left: 4px solid #3e65ff;
+            display: none;
+        }
+        
+        .admin-panel.active {
+            display: block;
+        }
+        
+        .admin-toggle {
+            background-color: #3e65ff;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+        
+        .admin-form {
+            display: none;
+            margin-top: 15px;
+        }
+        
+        .admin-form.active {
+            display: block;
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        
+        .form-group textarea {
+            height: 100px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background-color: #3e65ff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        
+        /* Admin Login */
+        .admin-login {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px;
+        }
+        
+        .admin-btn {
+            background-color: #3e65ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        .login-form {
+            display: none;
+            margin-top: 15px;
+            max-width: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .login-form.active {
+            display: block;
+        }
+        
+        .logout-btn {
+            background-color: #ff3e3e;
+            color: white;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        
+        footer {
+            background-color: #3e65ff;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: auto; /* Footer ans Ende schieben */
+        }
+        
+        /* Mobile Optimierungen */
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 8px 0;
+                width: 100%;
+                text-align: center;
+            }
+            
+            nav a {
+                display: block;
+                width: 100%;
+                padding: 12px 0;
+                font-size: 16px;
+            }
+            
+            .season-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .matchday-list {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .gallery {
+                grid-template-columns: 1fr;
+            }
+            
+            main {
+                padding: 20px 15px;
+                min-height: 70vh; /* Mehr Höhe auf Mobilgeräten */
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h2 {
+                font-size: 24px;
+            }
+            
+            h3 {
+                font-size: 20px;
+            }
+            
+            .gallery-item {
+                height: 180px;
+            }
+            
+            main {
+                min-height: 80vh; /* Noch mehr Höhe auf kleinen Geräten */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <!-- Hier muss deine header.png eingefügt werden -->
+            <img src="header.png" alt="Ultras Försterberg" class="header-image">
+        </header>
+        
+        <nav>
+            <ul>
+                <li><a href="#" data-section="home">Home</a></li>
+                <li><a href="#" data-section="aktuelles">Aktuelles</a></li>
+                <li><a href="#" data-section="galerie">Galerie</a></li>
+            </ul>
+        </nav>
+        
+        <main>
+            <section id="home" class="active">
+                <h2>ULTRAS FÖRSTERBERG '23</h2>
+                <p>Wir sind eine im Jahr 2023 gegründete Gruppierung des FCF und geben aktuell das Geschehen in der Kurve an. </p>
+                <p>Auf dieser Seite findet ihr alles über unsere Gruppe, wie Spieltagsfotos oder aktuelle Termine.</p>
+                
+                <!-- Admin Login auf der Homepage -->
+                <div class="admin-login">
+                    <button class="admin-btn" id="admin-login-btn">Admin Login</button>
+                    <div class="login-form" id="login-form">
+                        <div class="form-group">
+                            <label for="admin-password">Passwort:</label>
+                            <input type="password" id="admin-password" placeholder="Admin-Passwort">
+                        </div>
+                        <button class="submit-btn" id="login-submit-btn">Login</button>
+                        <div id="login-message" style="margin-top: 10px; color: red;"></div>
+                    </div>
+                    <button class="logout-btn" id="logout-btn" style="display: none;">Logout</button>
+                </div>
+            </section>
+            
+            <section id="aktuelles">
+                <h2>Aktuelles</h2>
+                
+                <!-- Admin Panel für Aktuelles (nur sichtbar im Admin-Modus) -->
+                <div class="admin-panel" id="news-admin-panel">
+                    <button class="admin-toggle">+ Neuen Beitrag hinzufügen</button>
+                    <div class="admin-form" id="news-form">
+                        <div class="form-group">
+                            <label for="news-title">Titel:</label>
+                            <input type="text" id="news-title" placeholder="Titel des Beitrags">
+                        </div>
+                        <div class="form-group">
+                            <label for="news-date">Datum:</label>
+                            <input type="date" id="news-date">
+                        </div>
+                        <div class="form-group">
+                            <label for="news-content">Inhalt:</label>
+                            <textarea id="news-content" placeholder="Inhalt des Beitrags"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="news-images">Bilder/Flyer (URLs, durch Komma getrennt):</label>
+                            <textarea id="news-images" placeholder="https://example.com/bild1.jpg, https://example.com/bild2.jpg"></textarea>
+                        </div>
+                        <button class="submit-btn" id="add-news-btn">Beitrag hinzufügen</button>
+                    </div>
+                </div>
+                
+                <div id="news-container">
+                    <!-- Hier werden die News-Beiträge dynamisch eingefügt -->
+                    <div class="no-images">Noch keine Beiträge vorhanden.</div>
+                </div>
+            </section>
+            
+            <section id="galerie">
+                <h2>Galerie</h2>
+                
+                <!-- Admin Panel für Galerie (nur sichtbar im Admin-Modus) -->
+                <div class="admin-panel" id="gallery-admin-panel">
+                    <button class="admin-toggle">+ Neuen Spieltag/Saison hinzufügen</button>
+                    <div class="admin-form" id="gallery-form">
+                        <div class="form-group">
+                            <label for="gallery-season">Saison auswählen:</label>
+                            <select id="gallery-season">
+                                <option value="2025-26">2025/26</option>
+                                <option value="sonstiges">Sonstiges</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="gallery-matchday">Spieltag/Event:</label>
+                            <input type="text" id="gallery-matchday" placeholder="z.B. Spieltag 5 - Heimspiel Bayern">
+                        </div>
+                        <div class="form-group">
+                            <label for="gallery-images">Bilder (URLs, durch Komma getrennt):</label>
+                            <textarea id="gallery-images" placeholder="https://example.com/bild1.jpg, https://example.com/bild2.jpg"></textarea>
+                        </div>
+                        <button class="submit-btn" id="add-gallery-btn">Zur Galerie hinzufügen</button>
+                    </div>
+                </div>
+                
+                <div class="season-selector">
+                    <div class="season-tab active" data-season="2025-26">2025/26</div>
+                    <div class="season-tab" data-season="sonstiges">Sonstiges</div>
+                </div>
+                
+                <div class="latest-matchday">
+                    <h3>Neuester Spieltag: <span id="latest-matchday-name"></span></h3>
+                    <div class="gallery" id="latest-gallery">
+                        <!-- Hier werden die Bilder vom neuesten Spieltag angezeigt -->
+                        <div class="no-images">Noch keine Bilder vorhanden.</div>
+                    </div>
+                </div>
+                
+                <div class="matchday-selector">
+                    <h3>Spieltage auswählen:</h3>
+                    <ul class="matchday-list" id="matchday-list">
+                        <!-- Hier werden die Spieltage dynamisch eingefügt -->
+                        <li class="no-matchdays">Noch keine Spieltage/Events für diese Saison vorhanden.</li>
+                    </ul>
+                </div>
+                
+                <div id="selected-gallery">
+                    <!-- Hier werden die Bilder des ausgewählten Spieltags angezeigt -->
+                    <div class="no-images">Bitte wähle einen Spieltag aus, um die Bilder zu sehen.</div>
+                </div>
+            </section>
+        </main>
+        
+        <footer>
+            <p>&copy; Ultras Försterberg '23 - Alle Rechte vorbehalten</p>
+        </footer>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('nav a');
+            const sections = document.querySelectorAll('section');
+            
+            // Admin Status
+            let isAdmin = localStorage.getItem('ultragruppe-admin') === 'true';
+            
+            // Navigation zwischen Home, Aktuelles und Galerie
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Entferne aktive Klasse von allen Links und Sektionen
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    sections.forEach(s => s.classList.remove('active'));
+                    
+                    // Füge aktive Klasse zum geklickten Link hinzu
+                    this.classList.add('active');
+                    
+                    // Zeige die entsprechende Sektion an
+                    const sectionId = this.getAttribute('data-section');
+                    document.getElementById(sectionId).classList.add('active');
+                });
+            });
+            
+            // Admin Login Funktionen
+            const adminLoginBtn = document.getElementById('admin-login-btn');
+            const loginForm = document.getElementById('login-form');
+            const logoutBtn = document.getElementById('logout-btn');
+            const loginSubmitBtn = document.getElementById('login-submit-btn');
+            const loginMessage = document.getElementById('login-message');
+            
+            adminLoginBtn.addEventListener('click', function() {
+                loginForm.classList.toggle('active');
+            });
+            
+            loginSubmitBtn.addEventListener('click', function() {
+                const password = document.getElementById('admin-password').value;
+                
+                if (password === 'rooter') {
+                    isAdmin = true;
+                    localStorage.setItem('ultragruppe-admin', 'true');
+                    updateAdminUI();
+                    loginForm.classList.remove('active');
+                    loginMessage.textContent = '';
+                } else {
+                    loginMessage.textContent = 'Falsches Passwort!';
+                }
+            });
+            
+            logoutBtn.addEventListener('click', function() {
+                isAdmin = false;
+                localStorage.setItem('ultragruppe-admin', 'false');
+                updateAdminUI();
+            });
+            
+            function updateAdminUI() {
+                if (isAdmin) {
+                    // Zeige Admin-Panels
+                    document.getElementById('news-admin-panel').classList.add('active');
+                    document.getElementById('gallery-admin-panel').classList.add('active');
+                    logoutBtn.style.display = 'block';
+                    adminLoginBtn.style.display = 'none';
+                } else {
+                    // Verstecke Admin-Panels
+                    document.getElementById('news-admin-panel').classList.remove('active');
+                    document.getElementById('gallery-admin-panel').classList.remove('active');
+                    logoutBtn.style.display = 'none';
+                    adminLoginBtn.style.display = 'block';
+                }
+            }
+            
+            // Initialisiere Admin-UI
+            updateAdminUI();
+            
+            // Admin Panel Toggle
+            const adminToggles = document.querySelectorAll('.admin-toggle');
+            adminToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    if (!isAdmin) return;
+                    
+                    const form = this.nextElementSibling;
+                    form.classList.toggle('active');
+                });
+            });
+            
+            // Datenstruktur für News und Galerie (leer initialisiert)
+            let newsData = JSON.parse(localStorage.getItem('ultras-forsterberg-news')) || [];
+            
+            let galleryData = JSON.parse(localStorage.getItem('ultras-forsterberg-gallery')) || {
+                "2025-26": {},
+                "sonstiges": {}
+            };
+            
+            // Initialisiere die Seiten
+            initializeNews();
+            initializeGallery();
+            
+            // News hinzufügen
+            document.getElementById('add-news-btn').addEventListener('click', function() {
+                if (!isAdmin) return;
+                
+                const title = document.getElementById('news-title').value;
+                const date = document.getElementById('news-date').value;
+                const content = document.getElementById('news-content').value;
+                const imagesText = document.getElementById('news-images').value;
+                
+                if (!title || !date || !content) {
+                    alert('Bitte fülle Titel, Datum und Inhalt aus.');
+                    return;
+                }
+                
+                const images = imagesText.split(',').map(url => url.trim()).filter(url => url);
+                
+                // Neuen News-Beitrag hinzufügen
+                newsData.unshift({
+                    title,
+                    date,
+                    content,
+                    images
+                });
+                
+                // In LocalStorage speichern
+                localStorage.setItem('ultras-forsterberg-news', JSON.stringify(newsData));
+                
+                // Formular zurücksetzen
+                document.getElementById('news-form').reset();
+                document.getElementById('news-form').classList.remove('active');
+                
+                // News neu laden
+                initializeNews();
+                
+                alert('News-Beitrag erfolgreich hinzugefügt!');
+            });
+            
+            // Galerie-Eintrag hinzufügen
+            document.getElementById('add-gallery-btn').addEventListener('click', function() {
+                if (!isAdmin) return;
+                
+                const season = document.getElementById('gallery-season').value;
+                const matchday = document.getElementById('gallery-matchday').value;
+                const imagesText = document.getElementById('gallery-images').value;
+                
+                if (!matchday) {
+                    alert('Bitte gib einen Spieltag/Event-Namen ein.');
+                    return;
+                }
+                
+                const images = imagesText.split(',').map(url => url.trim()).filter(url => url);
+                
+                // Neuen Galerie-Eintrag hinzufügen
+                if (!galleryData[season]) {
+                    galleryData[season] = {};
+                }
+                
+                galleryData[season][matchday] = images;
+                
+                // In LocalStorage speichern
+                localStorage.setItem('ultras-forsterberg-gallery', JSON.stringify(galleryData));
+                
+                // Formular zurücksetzen
+                document.getElementById('gallery-form').reset();
+                document.getElementById('gallery-form').classList.remove('active');
+                
+                // Galerie neu laden
+                initializeGallery();
+                
+                alert('Galerie-Eintrag erfolgreich hinzugefügt!');
+            });
+            
+            function initializeNews() {
+                const newsContainer = document.getElementById('news-container');
+                newsContainer.innerHTML = '';
+                
+                if (newsData.length === 0) {
+                    newsContainer.innerHTML = '<div class="no-images">Noch keine Beiträge vorhanden.</div>';
+                    return;
+                }
+                
+                // News nach Datum sortieren (neueste zuerst)
+                newsData.sort((a, b) => new Date(b.date) - new Date(a.date));
+                
+                // News-Beiträge anzeigen
+                newsData.forEach(news => {
+                    const newsItem = document.createElement('div');
+                    newsItem.className = 'news-item';
+                    
+                    const date = new Date(news.date);
+                    const formattedDate = date.toLocaleDateString('de-DE', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    });
+                    
+                    newsItem.innerHTML = `
+                        <h3>${news.title}</h3>
+                        <div class="news-date">${formattedDate}</div>
+                        <div class="news-content">${news.content}</div>
+                    `;
+                    
+                    // Bilder hinzufügen, falls vorhanden
+                    if (news.images && news.images.length > 0) {
+                        const imagesContainer = document.createElement('div');
+                        imagesContainer.className = 'news-images';
+                        
+                        news.images.forEach(imageUrl => {
+                            const img = document.createElement('img');
+                            img.src = imageUrl;
+                            img.alt = news.title;
+                            img.style.maxWidth = '100%';
+                            img.style.height = 'auto';
+                            imagesContainer.appendChild(img);
+                        });
+                        
+                        newsItem.appendChild(imagesContainer);
+                    }
+                    
+                    newsContainer.appendChild(newsItem);
+                });
+            }
+            
+            function initializeGallery() {
+                // Saison-Auswahl
+                const seasonTabs = document.querySelectorAll('.season-tab');
+                const matchdayList = document.getElementById('matchday-list');
+                const selectedGallery = document.getElementById('selected-gallery');
+                const latestGallery = document.getElementById('latest-gallery');
+                const latestMatchdayName = document.getElementById('latest-matchday-name');
+                
+                // Initialisiere die Galerie mit der ersten Saison
+                updateMatchdayList('2025-26');
+                
+                seasonTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        // Entferne aktive Klasse von allen Tabs
+                        seasonTabs.forEach(t => t.classList.remove('active'));
+                        
+                        // Füge aktive Klasse zum geklickten Tab hinzu
+                        this.classList.add('active');
+                        
+                        // Aktualisiere die Spieltage-Liste
+                        const season = this.getAttribute('data-season');
+                        updateMatchdayList(season);
+                        
+                        // Leere die ausgewählte Galerie
+                        selectedGallery.innerHTML = '<div class="no-images">Bitte wähle einen Spieltag aus, um die Bilder zu sehen.</div>';
+                    });
+                });
+                
+                function updateMatchdayList(season) {
+                    // Leere die aktuelle Liste
+                    matchdayList.innerHTML = '';
+                    
+                    // Füge Spieltage für die ausgewählte Saison hinzu
+                    const matchdays = Object.keys(galleryData[season] || {});
+                    
+                    if (matchdays.length === 0) {
+                        matchdayList.innerHTML = '<li class="no-matchdays">Noch keine Spieltage/Events für diese Saison vorhanden.</li>';
+                        latestMatchdayName.textContent = 'Keine Spieltage vorhanden';
+                        latestGallery.innerHTML = '<div class="no-images">Noch keine Bilder vorhanden.</div>';
+                        return;
+                    }
+                    
+                    matchdays.forEach(matchday => {
+                        const li = document.createElement('li');
+                        li.className = 'matchday-item';
+                        li.textContent = matchday;
+                        li.setAttribute('data-matchday', matchday);
+                        
+                        li.addEventListener('click', function() {
+                            // Entferne aktive Klasse von allen Spieltagen
+                            document.querySelectorAll('.matchday-item').forEach(item => {
+                                item.classList.remove('active');
+                            });
+                            
+                            // Füge aktive Klasse zum geklickten Spieltag hinzu
+                            this.classList.add('active');
+                            
+                            // Zeige die Bilder für diesen Spieltag an
+                            showMatchdayImages(season, matchday);
+                        });
+                        
+                        matchdayList.appendChild(li);
+                    });
+                    
+                    // Zeige den neuesten Spieltag an
+                    if (matchdays.length > 0) {
+                        const latestMatchday = matchdays[0]; // Erster Eintrag ist der neueste
+                        latestMatchdayName.textContent = latestMatchday;
+                        updateLatestGallery(season, latestMatchday);
+                    }
+                }
+                
+                function updateLatestGallery(season, matchday) {
+                    const images = galleryData[season][matchday];
+                    latestGallery.innerHTML = '';
+                    
+                    if (images.length === 0) {
+                        latestGallery.innerHTML = '<div class="no-images">Für diesen Spieltag sind noch keine Bilder vorhanden.</div>';
+                    } else {
+                        images.forEach(imageSrc => {
+                            const galleryItem = document.createElement('div');
+                            galleryItem.className = 'gallery-item';
+                            
+                            const img = document.createElement('img');
+                            img.src = imageSrc;
+                            img.alt = `Bild von ${matchday}`;
+                            
+                            galleryItem.appendChild(img);
+                            latestGallery.appendChild(galleryItem);
+                        });
+                    }
+                }
+                
+                function showMatchdayImages(season, matchday) {
+                    const images = galleryData[season][matchday];
+                    
+                    // Leere die Galerie
+                    selectedGallery.innerHTML = '';
+                    
+                    if (images.length === 0) {
+                        // Zeige "Keine Bilder" Nachricht
+                        selectedGallery.innerHTML = '<div class="no-images">Für diesen Spieltag sind noch keine Bilder vorhanden.</div>';
+                    } else {
+                        // Erstelle Galerie-Container
+                        const gallery = document.createElement('div');
+                        gallery.className = 'gallery';
+                        
+                        // Füge Bilder hinzu
+                        images.forEach(imageSrc => {
+                            const galleryItem = document.createElement('div');
+                            galleryItem.className = 'gallery-item';
+                            
+                            const img = document.createElement('img');
+                            img.src = imageSrc;
+                            img.alt = `Bild von ${matchday}`;
+                            
+                            galleryItem.appendChild(img);
+                            gallery.appendChild(galleryItem);
+                        });
+                        
+                        selectedGallery.appendChild(gallery);
+                    }
+                }
+            }
+        });
+    </script>
+</body>
+</html>
