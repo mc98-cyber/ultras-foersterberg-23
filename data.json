@@ -1,9 +1,11 @@
 {
+  "news": [],
   "gallery": {
     "2025-26": {
       "Test": [
         "https://i.postimg.cc/50y1dY42/31.jpg"
       ]
-    }
+    },
+    "sonstiges": {}
   }
 }
