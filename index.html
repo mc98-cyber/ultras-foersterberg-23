@@ -292,6 +292,15 @@
             padding: 20px;
             color: #666;
         }
+        
+        .error {
+            text-align: center;
+            padding: 20px;
+            background-color: #ffe6e6;
+            border-radius: 5px;
+            color: #d00;
+            border: 1px solid #ffcccc;
+        }
     </style>
 </head>
 <body>
@@ -383,8 +392,8 @@
             
             async function loadData() {
                 try {
-                    // Versuche Daten von data.json zu laden
-                    const response = await fetch('data.json');
+                    // Versuche Daten von data.json zu laden mit Cache-Busting
+                    const response = await fetch('data.json?' + new Date().getTime());
                     
                     if (!response.ok) {
                         throw new Error('data.json nicht gefunden');
@@ -392,25 +401,37 @@
                     
                     const data = await response.json();
                     
+                    // Validiere die Datenstruktur
+                    if (!data.news || !data.gallery) {
+                        throw new Error('Ungültige Datenstruktur in data.json');
+                    }
+                    
                     // Zeige die geladenen Daten an
-                    displayNews(data.news || []);
-                    initializeGallery(data.gallery || {
-                        "2025-26": {},
-                        "sonstiges": {}
-                    });
+                    displayNews(data.news);
+                    initializeGallery(data.gallery);
                     
                 } catch (error) {
                     console.error('Fehler beim Laden der Daten:', error);
                     
-                    // Fallback: Zeige Fehlermeldung
+                    // Detaillierte Fehlermeldung anzeigen
+                    let errorMessage = 'Daten konnten nicht geladen werden: ';
+                    
+                    if (error.message.includes('nicht gefunden')) {
+                        errorMessage += 'data.json Datei wurde nicht gefunden. Bitte stelle sicher, dass die Datei im gleichen Verzeichnis wie index.html liegt.';
+                    } else if (error.message.includes('Ungültige Datenstruktur')) {
+                        errorMessage += 'Die data.json Datei hat eine ungültige Struktur. Bitte überprüfe das Format.';
+                    } else {
+                        errorMessage += error.message;
+                    }
+                    
                     document.getElementById('news-container').innerHTML = 
-                        '<div class="no-images">data.json Datei nicht gefunden. Bitte erstelle eine data.json Datei im GitHub Repository.</div>';
+                        `<div class="error">${errorMessage}</div>`;
                     
                     document.getElementById('latest-gallery').innerHTML = 
-                        '<div class="no-images">data.json Datei nicht gefunden.</div>';
+                        `<div class="error">${errorMessage}</div>`;
                     
                     document.getElementById('matchday-list').innerHTML = 
-                        '<li class="no-matchdays">data.json Datei nicht gefunden.</li>';
+                        `<li class="error">${errorMessage}</li>`;
                 }
             }
             
@@ -418,7 +439,7 @@
                 const newsContainer = document.getElementById('news-container');
                 newsContainer.innerHTML = '';
                 
-                if (newsData.length === 0) {
+                if (!newsData || newsData.length === 0) {
                     newsContainer.innerHTML = '<div class="no-images">Noch keine Beiträge vorhanden.</div>';
                     return;
                 }
@@ -526,7 +547,7 @@
                     const images = galleryData[season][matchday];
                     latestGallery.innerHTML = '';
                     
-                    if (images.length === 0) {
+                    if (!images || images.length === 0) {
                         latestGallery.innerHTML = '<div class="no-images">Für diesen Spieltag sind noch keine Bilder vorhanden.</div>';
                     } else {
                         images.forEach(imageSrc => {
@@ -549,7 +570,7 @@
                     // Leere die Galerie
                     selectedGallery.innerHTML = '';
                     
-                    if (images.length === 0) {
+                    if (!images || images.length === 0) {
                         // Zeige "Keine Bilder" Nachricht
                         selectedGallery.innerHTML = '<div class="no-images">Für diesen Spieltag sind noch keine Bilder vorhanden.</div>';
                     } else {
