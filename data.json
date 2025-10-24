@@ -1,5 +1,12 @@
 {
-  "news": [],
+  "news": [
+    {
+      "title": "Willkommen auf unserer neuen Website!",
+      "date": "2023-11-15",
+      "content": "Wir freuen uns, euch unsere neue Website präsentieren zu können. Hier findet ihr alle News, Bilder und Infos zu unseren Aktivitäten.",
+      "images": []
+    }
+  ],
   "gallery": {
     "2025-26": {
       "Test": [
