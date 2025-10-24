@@ -44,7 +44,7 @@
             background-color: white;
             text-align: center;
             padding: 15px 0;
-            border-bottom: 4px solid #f0f0f0; /* Dickere Linie */
+            border-bottom: 4px solid #f0f0f0;
         }
         
         nav ul {
@@ -72,7 +72,7 @@
         
         main {
             padding: 40px 20px;
-            flex-grow: 1; /* Nimmt verfügbaren Platz ein */
+            flex-grow: 1;
         }
         
         section {
@@ -221,115 +221,12 @@
             margin-top: 15px;
         }
         
-        /* Admin Panel */
-        .admin-panel {
-            background-color: #f5f5f5;
-            padding: 15px;
-            border-radius: 5px;
-            margin-bottom: 20px;
-            border-left: 4px solid #3e65ff;
-            display: none;
-        }
-        
-        .admin-panel.active {
-            display: block;
-        }
-        
-        .admin-toggle {
-            background-color: #3e65ff;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-bottom: 10px;
-        }
-        
-        .admin-form {
-            display: none;
-            margin-top: 15px;
-        }
-        
-        .admin-form.active {
-            display: block;
-        }
-        
-        .form-group {
-            margin-bottom: 15px;
-        }
-        
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .form-group input, .form-group textarea, .form-group select {
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-        }
-        
-        .form-group textarea {
-            height: 100px;
-            resize: vertical;
-        }
-        
-        .submit-btn {
-            background-color: #3e65ff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        
-        /* Admin Login */
-        .admin-login {
-            text-align: center;
-            margin-top: 30px;
-            padding: 20px;
-        }
-        
-        .admin-btn {
-            background-color: #3e65ff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 16px;
-        }
-        
-        .login-form {
-            display: none;
-            margin-top: 15px;
-            max-width: 300px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        
-        .login-form.active {
-            display: block;
-        }
-        
-        .logout-btn {
-            background-color: #ff3e3e;
-            color: white;
-            border: none;
-            padding: 8px 15px;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        
         footer {
             background-color: #3e65ff;
             color: white;
             text-align: center;
             padding: 20px;
-            margin-top: auto; /* Footer ans Ende schieben */
+            margin-top: auto;
         }
         
         /* Mobile Optimierungen */
@@ -368,7 +265,7 @@
             
             main {
                 padding: 20px 15px;
-                min-height: 70vh; /* Mehr Höhe auf Mobilgeräten */
+                min-height: 70vh;
             }
         }
         
@@ -386,15 +283,20 @@
             }
             
             main {
-                min-height: 80vh; /* Noch mehr Höhe auf kleinen Geräten */
+                min-height: 80vh;
             }
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #666;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <!-- Hier muss deine header.png eingefügt werden -->
             <img src="header.png" alt="Ultras Försterberg" class="header-image">
         </header>
         
@@ -408,83 +310,20 @@
         
         <main>
             <section id="home" class="active">
-                <h2>ULTRAS FÖRSTERBERG '23</h2>
-                <p>Wir sind eine im Jahr 2023 gegründete Gruppierung des FCF und geben aktuell das Geschehen in der Kurve an. </p>
-                <p>Auf dieser Seite findet ihr alles über unsere Gruppe, wie Spieltagsfotos oder aktuelle Termine.</p>
-                
-                <!-- Admin Login auf der Homepage -->
-                <div class="admin-login">
-                    <button class="admin-btn" id="admin-login-btn">Admin Login</button>
-                    <div class="login-form" id="login-form">
-                        <div class="form-group">
-                            <label for="admin-password">Passwort:</label>
-                            <input type="password" id="admin-password" placeholder="Admin-Passwort">
-                        </div>
-                        <button class="submit-btn" id="login-submit-btn">Login</button>
-                        <div id="login-message" style="margin-top: 10px; color: red;"></div>
-                    </div>
-                    <button class="logout-btn" id="logout-btn" style="display: none;">Logout</button>
-                </div>
+                <h2>Willkommen bei Ultras Försterberg</h2>
+                <p>Wir sind eine leidenschaftliche Gruppe von Fans, die sich voll und ganz unserem Verein verschrieben hat. Hier findest du alle Informationen, Neuigkeiten und Bilder von unseren Aktivitäten.</p>
+                <p>Unsere Ultragruppe wurde gegründet, um die Stimmung im Stadion zu verbessern und unseren Verein auf jeder Ebene zu unterstützen.</p>
             </section>
             
             <section id="aktuelles">
                 <h2>Aktuelles</h2>
-                
-                <!-- Admin Panel für Aktuelles (nur sichtbar im Admin-Modus) -->
-                <div class="admin-panel" id="news-admin-panel">
-                    <button class="admin-toggle">+ Neuen Beitrag hinzufügen</button>
-                    <div class="admin-form" id="news-form">
-                        <div class="form-group">
-                            <label for="news-title">Titel:</label>
-                            <input type="text" id="news-title" placeholder="Titel des Beitrags">
-                        </div>
-                        <div class="form-group">
-                            <label for="news-date">Datum:</label>
-                            <input type="date" id="news-date">
-                        </div>
-                        <div class="form-group">
-                            <label for="news-content">Inhalt:</label>
-                            <textarea id="news-content" placeholder="Inhalt des Beitrags"></textarea>
-                        </div>
-                        <div class="form-group">
-                            <label for="news-images">Bilder/Flyer (URLs, durch Komma getrennt):</label>
-                            <textarea id="news-images" placeholder="https://example.com/bild1.jpg, https://example.com/bild2.jpg"></textarea>
-                        </div>
-                        <button class="submit-btn" id="add-news-btn">Beitrag hinzufügen</button>
-                    </div>
-                </div>
-                
                 <div id="news-container">
-                    <!-- Hier werden die News-Beiträge dynamisch eingefügt -->
-                    <div class="no-images">Noch keine Beiträge vorhanden.</div>
+                    <div class="loading">Lade Aktuelles...</div>
                 </div>
             </section>
             
             <section id="galerie">
                 <h2>Galerie</h2>
-                
-                <!-- Admin Panel für Galerie (nur sichtbar im Admin-Modus) -->
-                <div class="admin-panel" id="gallery-admin-panel">
-                    <button class="admin-toggle">+ Neuen Spieltag/Saison hinzufügen</button>
-                    <div class="admin-form" id="gallery-form">
-                        <div class="form-group">
-                            <label for="gallery-season">Saison auswählen:</label>
-                            <select id="gallery-season">
-                                <option value="2025-26">2025/26</option>
-                                <option value="sonstiges">Sonstiges</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="gallery-matchday">Spieltag/Event:</label>
-                            <input type="text" id="gallery-matchday" placeholder="z.B. Spieltag 5 - Heimspiel Bayern">
-                        </div>
-                        <div class="form-group">
-                            <label for="gallery-images">Bilder (URLs, durch Komma getrennt):</label>
-                            <textarea id="gallery-images" placeholder="https://example.com/bild1.jpg, https://example.com/bild2.jpg"></textarea>
-                        </div>
-                        <button class="submit-btn" id="add-gallery-btn">Zur Galerie hinzufügen</button>
-                    </div>
-                </div>
                 
                 <div class="season-selector">
                     <div class="season-tab active" data-season="2025-26">2025/26</div>
@@ -494,21 +333,18 @@
                 <div class="latest-matchday">
                     <h3>Neuester Spieltag: <span id="latest-matchday-name"></span></h3>
                     <div class="gallery" id="latest-gallery">
-                        <!-- Hier werden die Bilder vom neuesten Spieltag angezeigt -->
-                        <div class="no-images">Noch keine Bilder vorhanden.</div>
+                        <div class="loading">Lade neuesten Spieltag...</div>
                     </div>
                 </div>
                 
                 <div class="matchday-selector">
                     <h3>Spieltage auswählen:</h3>
                     <ul class="matchday-list" id="matchday-list">
-                        <!-- Hier werden die Spieltage dynamisch eingefügt -->
-                        <li class="no-matchdays">Noch keine Spieltage/Events für diese Saison vorhanden.</li>
+                        <li class="loading">Lade Spieltage...</li>
                     </ul>
                 </div>
                 
                 <div id="selected-gallery">
-                    <!-- Hier werden die Bilder des ausgewählten Spieltags angezeigt -->
                     <div class="no-images">Bitte wähle einen Spieltag aus, um die Bilder zu sehen.</div>
                 </div>
             </section>
@@ -523,9 +359,6 @@
         document.addEventListener('DOMContentLoaded', function() {
             const navLinks = document.querySelectorAll('nav a');
             const sections = document.querySelectorAll('section');
-            
-            // Admin Status
-            let isAdmin = localStorage.getItem('ultragruppe-admin') === 'true';
             
             // Navigation zwischen Home, Aktuelles und Galerie
             navLinks.forEach(link => {
@@ -545,152 +378,43 @@
                 });
             });
             
-            // Admin Login Funktionen
-            const adminLoginBtn = document.getElementById('admin-login-btn');
-            const loginForm = document.getElementById('login-form');
-            const logoutBtn = document.getElementById('logout-btn');
-            const loginSubmitBtn = document.getElementById('login-submit-btn');
-            const loginMessage = document.getElementById('login-message');
+            // Lade Daten von der data.json Datei
+            loadData();
             
-            adminLoginBtn.addEventListener('click', function() {
-                loginForm.classList.toggle('active');
-            });
-            
-            loginSubmitBtn.addEventListener('click', function() {
-                const password = document.getElementById('admin-password').value;
-                
-                if (password === 'rooter') {
-                    isAdmin = true;
-                    localStorage.setItem('ultragruppe-admin', 'true');
-                    updateAdminUI();
-                    loginForm.classList.remove('active');
-                    loginMessage.textContent = '';
-                } else {
-                    loginMessage.textContent = 'Falsches Passwort!';
-                }
-            });
-            
-            logoutBtn.addEventListener('click', function() {
-                isAdmin = false;
-                localStorage.setItem('ultragruppe-admin', 'false');
-                updateAdminUI();
-            });
-            
-            function updateAdminUI() {
-                if (isAdmin) {
-                    // Zeige Admin-Panels
-                    document.getElementById('news-admin-panel').classList.add('active');
-                    document.getElementById('gallery-admin-panel').classList.add('active');
-                    logoutBtn.style.display = 'block';
-                    adminLoginBtn.style.display = 'none';
-                } else {
-                    // Verstecke Admin-Panels
-                    document.getElementById('news-admin-panel').classList.remove('active');
-                    document.getElementById('gallery-admin-panel').classList.remove('active');
-                    logoutBtn.style.display = 'none';
-                    adminLoginBtn.style.display = 'block';
+            async function loadData() {
+                try {
+                    // Versuche Daten von data.json zu laden
+                    const response = await fetch('data.json');
+                    
+                    if (!response.ok) {
+                        throw new Error('data.json nicht gefunden');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Zeige die geladenen Daten an
+                    displayNews(data.news || []);
+                    initializeGallery(data.gallery || {
+                        "2025-26": {},
+                        "sonstiges": {}
+                    });
+                    
+                } catch (error) {
+                    console.error('Fehler beim Laden der Daten:', error);
+                    
+                    // Fallback: Zeige Fehlermeldung
+                    document.getElementById('news-container').innerHTML = 
+                        '<div class="no-images">data.json Datei nicht gefunden. Bitte erstelle eine data.json Datei im GitHub Repository.</div>';
+                    
+                    document.getElementById('latest-gallery').innerHTML = 
+                        '<div class="no-images">data.json Datei nicht gefunden.</div>';
+                    
+                    document.getElementById('matchday-list').innerHTML = 
+                        '<li class="no-matchdays">data.json Datei nicht gefunden.</li>';
                 }
             }
             
-            // Initialisiere Admin-UI
-            updateAdminUI();
-            
-            // Admin Panel Toggle
-            const adminToggles = document.querySelectorAll('.admin-toggle');
-            adminToggles.forEach(toggle => {
-                toggle.addEventListener('click', function() {
-                    if (!isAdmin) return;
-                    
-                    const form = this.nextElementSibling;
-                    form.classList.toggle('active');
-                });
-            });
-            
-            // Datenstruktur für News und Galerie (leer initialisiert)
-            let newsData = JSON.parse(localStorage.getItem('ultras-forsterberg-news')) || [];
-            
-            let galleryData = JSON.parse(localStorage.getItem('ultras-forsterberg-gallery')) || {
-                "2025-26": {},
-                "sonstiges": {}
-            };
-            
-            // Initialisiere die Seiten
-            initializeNews();
-            initializeGallery();
-            
-            // News hinzufügen
-            document.getElementById('add-news-btn').addEventListener('click', function() {
-                if (!isAdmin) return;
-                
-                const title = document.getElementById('news-title').value;
-                const date = document.getElementById('news-date').value;
-                const content = document.getElementById('news-content').value;
-                const imagesText = document.getElementById('news-images').value;
-                
-                if (!title || !date || !content) {
-                    alert('Bitte fülle Titel, Datum und Inhalt aus.');
-                    return;
-                }
-                
-                const images = imagesText.split(',').map(url => url.trim()).filter(url => url);
-                
-                // Neuen News-Beitrag hinzufügen
-                newsData.unshift({
-                    title,
-                    date,
-                    content,
-                    images
-                });
-                
-                // In LocalStorage speichern
-                localStorage.setItem('ultras-forsterberg-news', JSON.stringify(newsData));
-                
-                // Formular zurücksetzen
-                document.getElementById('news-form').reset();
-                document.getElementById('news-form').classList.remove('active');
-                
-                // News neu laden
-                initializeNews();
-                
-                alert('News-Beitrag erfolgreich hinzugefügt!');
-            });
-            
-            // Galerie-Eintrag hinzufügen
-            document.getElementById('add-gallery-btn').addEventListener('click', function() {
-                if (!isAdmin) return;
-                
-                const season = document.getElementById('gallery-season').value;
-                const matchday = document.getElementById('gallery-matchday').value;
-                const imagesText = document.getElementById('gallery-images').value;
-                
-                if (!matchday) {
-                    alert('Bitte gib einen Spieltag/Event-Namen ein.');
-                    return;
-                }
-                
-                const images = imagesText.split(',').map(url => url.trim()).filter(url => url);
-                
-                // Neuen Galerie-Eintrag hinzufügen
-                if (!galleryData[season]) {
-                    galleryData[season] = {};
-                }
-                
-                galleryData[season][matchday] = images;
-                
-                // In LocalStorage speichern
-                localStorage.setItem('ultras-forsterberg-gallery', JSON.stringify(galleryData));
-                
-                // Formular zurücksetzen
-                document.getElementById('gallery-form').reset();
-                document.getElementById('gallery-form').classList.remove('active');
-                
-                // Galerie neu laden
-                initializeGallery();
-                
-                alert('Galerie-Eintrag erfolgreich hinzugefügt!');
-            });
-            
-            function initializeNews() {
+            function displayNews(newsData) {
                 const newsContainer = document.getElementById('news-container');
                 newsContainer.innerHTML = '';
                 
@@ -741,7 +465,7 @@
                 });
             }
             
-            function initializeGallery() {
+            function initializeGallery(galleryData) {
                 // Saison-Auswahl
                 const seasonTabs = document.querySelectorAll('.season-tab');
                 const matchdayList = document.getElementById('matchday-list');
@@ -749,27 +473,12 @@
                 const latestGallery = document.getElementById('latest-gallery');
                 const latestMatchdayName = document.getElementById('latest-matchday-name');
                 
-                // Initialisiere die Galerie mit der ersten Saison
-                updateMatchdayList('2025-26');
+                let currentSeason = '2025-26';
                 
-                seasonTabs.forEach(tab => {
-                    tab.addEventListener('click', function() {
-                        // Entferne aktive Klasse von allen Tabs
-                        seasonTabs.forEach(t => t.classList.remove('active'));
-                        
-                        // Füge aktive Klasse zum geklickten Tab hinzu
-                        this.classList.add('active');
-                        
-                        // Aktualisiere die Spieltage-Liste
-                        const season = this.getAttribute('data-season');
-                        updateMatchdayList(season);
-                        
-                        // Leere die ausgewählte Galerie
-                        selectedGallery.innerHTML = '<div class="no-images">Bitte wähle einen Spieltag aus, um die Bilder zu sehen.</div>';
-                    });
-                });
-                
+                // Funktion zum Aktualisieren der Spieltage-Liste
                 function updateMatchdayList(season) {
+                    currentSeason = season;
+                    
                     // Leere die aktuelle Liste
                     matchdayList.innerHTML = '';
                     
@@ -807,7 +516,7 @@
                     
                     // Zeige den neuesten Spieltag an
                     if (matchdays.length > 0) {
-                        const latestMatchday = matchdays[0]; // Erster Eintrag ist der neueste
+                        const latestMatchday = matchdays[0];
                         latestMatchdayName.textContent = latestMatchday;
                         updateLatestGallery(season, latestMatchday);
                     }
@@ -864,6 +573,27 @@
                         selectedGallery.appendChild(gallery);
                     }
                 }
+                
+                // Event-Listener für Saison-Tabs
+                seasonTabs.forEach(tab => {
+                    tab.addEventListener('click', function() {
+                        // Entferne aktive Klasse von allen Tabs
+                        seasonTabs.forEach(t => t.classList.remove('active'));
+                        
+                        // Füge aktive Klasse zum geklickten Tab hinzu
+                        this.classList.add('active');
+                        
+                        // Aktualisiere die Spieltage-Liste
+                        const season = this.getAttribute('data-season');
+                        updateMatchdayList(season);
+                        
+                        // Leere die ausgewählte Galerie
+                        selectedGallery.innerHTML = '<div class="no-images">Bitte wähle einen Spieltag aus, um die Bilder zu sehen.</div>';
+                    });
+                });
+                
+                // Initialisiere die Galerie mit der ersten Saison
+                updateMatchdayList('2025-26');
             }
         });
     </script>
